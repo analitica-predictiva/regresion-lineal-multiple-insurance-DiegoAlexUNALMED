@@ -17,19 +17,9 @@ def pregunta_01():
     Carga de datos.
     -------------------------------------------------------------------------------------
     """
-    # Lea el archivo `insurance.csv` y asignelo al DataFrame `df`
-    df = ____
-
-    # Asigne la columna `charges` a la variable `y`.
-    ____ = ____
-
-    # Asigne una copia del dataframe `df` a la variable `X`.
-    ____ = ____.____(____)
-
-    # Remueva la columna `charges` del DataFrame `X`.
-    ____.____(____)
-
-    # Retorne `X` y `y`
+    df = pd.read_csv("https://raw.githubusercontent.com/analitica-predictiva/regresion-lineal-multiple-insurance-DiegoAlexUNALMED/main/insurance.csv")
+    y = df.charges
+    X = df.drop("charges", axis = 1)
     return X, y
 
 
