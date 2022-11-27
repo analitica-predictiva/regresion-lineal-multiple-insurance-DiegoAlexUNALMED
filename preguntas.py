@@ -82,7 +82,8 @@ def pregunta_03():
                 "column_transfomer",
                 make_column_transformer(
                     (
-                        OneHotEncoder(), ['categorical_column'],
+                        OneHotEncoder(),
+                        make_column_selector(dtype_include=object),
                     ),
                     remainder='passthrough',
                 ),
@@ -91,7 +92,7 @@ def pregunta_03():
             # características más importantes. Utilice la función f_regression.
             (
                 "selectKBest",
-                SelectKBest(f_regression),
+                SelectKBest(score_func=f_regression),
             ),
             # Paso 3: Construya un modelo de regresión lineal.
             (
@@ -107,7 +108,7 @@ def pregunta_03():
     # Defina un diccionario de parámetros para el GridSearchCV. Se deben
     # considerar valores desde 1 hasta 11 regresores para el modelo
     param_grid = {
-        'C': range(1,12),
+        'selectKBest__k': range(1,12),
     }
 
     # Defina una instancia de GridSearchCV con el pipeline y el diccionario de
@@ -117,8 +118,8 @@ def pregunta_03():
         estimator= pipeline,
         param_grid= param_grid,
         cv=5,
-        scoring=f_regression,
-        refit=False,
+        scoring= "neg_mean_squared_error",
+        refit=True,
         return_train_score=False,
     )
 
